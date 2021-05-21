@@ -29,6 +29,17 @@ fi:
       failed: Rekisteröityminen epäonnistui
   reports:
     period: Raportointijakso %{since} – %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+  notifications:
+    notification_title:
+      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
       deleted: This message was deleted
@@ -36,11 +47,16 @@ fi:
       status:
         resolved: "%{user_name} merkitsi keskustelun ratkaistuksi"
         open: "%{user_name} uudelleenavasi keskustelun"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Keskustelu merkittiin ratkaistuksi automaattisesti, sillä on kulunut %{duration} päivää viimeisestä viestistä"
       assignee:
         self_assigned: "%{user_name} ilmottautui keskusteluun"
         assigned: "Delegoitu edustajalle %{assignee_name} edustajan %{user_name} toimesta"
         removed: "%{user_name} poistui keskustelusta"
+      team:
+        assigned: "Delegoitu edustajalle %{team_name} edustajan %{user_name} toimesta"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} lisäsi tunnisteet %{labels}"
         removed: "%{user_name} poisti tunnisteet %{labels}"
@@ -60,3 +76,6 @@ fi:
     webhooks:
       name: "Webhookit"
       description: "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatwoot-tililläsi tapahtuu. Voit käyttää webhookeja ja välittää tapahtumat suosikkiohjelmillesi, kuten Slackiin tai Githubiiin. Klikkaa \"Määrittele\" määrittääksesi webhookisi."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

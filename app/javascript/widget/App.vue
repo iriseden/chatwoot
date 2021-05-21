@@ -2,12 +2,7 @@
   <router
     :show-unread-view="showUnreadView"
     :is-mobile="isMobile"
-    :grouped-messages="groupedMessages"
-    :unread-messages="unreadMessages"
-    :conversation-size="conversationSize"
-    :available-agents="availableAgents"
     :has-fetched="hasFetched"
-    :conversation-attributes="conversationAttributes"
     :unread-message-count="unreadMessageCount"
     :is-left-aligned="isLeftAligned"
     :hide-message-bubble="hideMessageBubble"
@@ -18,8 +13,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
-import { IFrameHelper } from 'widget/helpers/utils';
-
+import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -40,13 +34,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      groupedMessages: 'conversation/getGroupedConversation',
-      unreadMessages: 'conversation/getUnreadTextMessages',
-      conversationSize: 'conversation/getConversationSize',
-      availableAgents: 'agent/availableAgents',
       hasFetched: 'agent/getHasFetched',
-      conversationAttributes: 'conversationAttributes/getConversationParams',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
+      campaigns: 'campaign/getCampaigns',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';
@@ -54,6 +44,9 @@ export default {
     },
     isIFrame() {
       return IFrameHelper.isIFrame();
+    },
+    isRNWebView() {
+      return RNHelper.isRNWebView();
     },
   },
   mounted() {
@@ -69,6 +62,10 @@ export default {
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
+    if (this.isRNWebView) {
+      this.registerListeners();
+      this.sendRNWebViewLoadedEvent();
+    }
     this.$store.dispatch('conversationAttributes/get');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
@@ -76,6 +73,7 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
+    ...mapActions('campaign', ['startCampaigns']),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -153,11 +151,14 @@ export default {
           this.setPopoutDisplay(message.showPopoutButton);
           this.fetchAvailableAgents(websiteToken);
           this.setHideMessageBubble(message.hideMessageBubble);
+          this.$store.dispatch('contacts/get');
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
-        } else if (message.event === 'set-current-url') {
-          window.referrerURL = message.referrerURL;
-          bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, message.referrerHost);
+        } else if (message.event === 'change-url') {
+          const { referrerURL, referrerHost } = message;
+          this.startCampaigns({ currentURL: referrerURL, websiteToken });
+          window.referrerURL = referrerURL;
+          bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
         } else if (message.event === 'toggle-close-button') {
           this.isMobile = message.showClose;
         } else if (message.event === 'push-event') {
@@ -189,6 +190,15 @@ export default {
     },
     sendLoadedEvent() {
       IFrameHelper.sendMessage({
+        event: 'loaded',
+        config: {
+          authToken: window.authToken,
+          channelConfig: window.chatwootWebChannel,
+        },
+      });
+    },
+    sendRNWebViewLoadedEvent() {
+      RNHelper.sendMessage({
         event: 'loaded',
         config: {
           authToken: window.authToken,

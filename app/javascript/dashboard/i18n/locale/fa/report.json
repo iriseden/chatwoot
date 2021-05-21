@@ -3,7 +3,7 @@
     "HEADER": "گزارشات",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
@@ -38,6 +38,18 @@
       {
         "id": 1,
         "name": "در ۳۰ روز گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۳ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۶ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "پارسال"
       }
     ]
   }

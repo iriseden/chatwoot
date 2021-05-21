@@ -21,7 +21,7 @@
               :title="label.title"
               :description="label.description"
               :bg-color="label.color"
-              :show-icon="true"
+              :show-close="true"
               @click="onRemove"
             />
           </div>
@@ -44,7 +44,6 @@
               :title="label.title"
               :description="label.description"
               :bg-color="label.color"
-              :show-icon="true"
               icon="ion-plus"
               @click="onAdd"
             />
@@ -87,14 +86,18 @@ export default {
   },
   computed: {
     activeList() {
-      return this.accountLabels.filter(accountLabel =>
-        this.savedLabels.includes(accountLabel.title)
-      );
+      return this.accountLabels
+        .filter(accountLabel => this.savedLabels.includes(accountLabel.title))
+        .sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
     },
     inactiveList() {
-      return this.accountLabels.filter(
-        accountLabel => !this.savedLabels.includes(accountLabel.title)
-      );
+      return this.accountLabels
+        .filter(accountLabel => !this.savedLabels.includes(accountLabel.title))
+        .sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
     },
   },
   methods: {

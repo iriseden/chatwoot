@@ -51,5 +51,25 @@
       "ENTER_TO_REMOVE": "Kaldırmak için enter tuşuna basın",
       "SELECT_ONE": "Birini seç"
     }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Bildirimler",
+    "MARK_ALL_DONE": "Mark All Done",
+    "LIST": {
+      "LOADING_MESSAGE": "Bildirimler yükleniyor...",
+      "404": "Bildirim yok",
+      "TABLE_HEADER": [
+        "İsim",
+        "Telefon numarası",
+        "Konuşmalar",
+        "Son Görüşülen"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Yeni görüşme",
+      "conversation_assignment": "Atanan görüşme",
+      "assigned_conversation_new_message": "Yeni Mesaj",
+      "conversation_mention": "Mention"
+    }
   }
 }

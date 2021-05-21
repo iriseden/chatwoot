@@ -42,6 +42,8 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
+          resources :campaigns, only: [:index, :create, :show, :update]
+
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -67,6 +69,10 @@ Rails.application.routes.draw do
             collection do
               get :active
               get :search
+              post :import
+            end
+            member do
+              get :contactable_inboxes
             end
             scope module: :contacts do
               resources :conversations, only: [:index]
@@ -84,6 +90,8 @@ Rails.application.routes.draw do
           end
 
           resources :inboxes, only: [:index, :create, :update, :destroy] do
+            get :assignable_agents, on: :member
+            get :campaigns, on: :member
             post :set_agent_bot, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id
@@ -101,13 +109,19 @@ Rails.application.routes.draw do
             resources :team_members, only: [:index, :create] do
               collection do
                 delete :destroy
+                patch :update
               end
             end
+          end
+
+          namespace :twitter do
+            resource :authorization, only: [:create]
           end
 
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
+            resources :hooks, only: [:create, :update, :destroy]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end
           resources :working_hours, only: [:update]
@@ -135,16 +149,17 @@ Rails.application.routes.draw do
       resources :agent_bots, only: [:index]
 
       namespace :widget do
+        resources :campaigns, only: [:index]
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
-        resources :conversations, only: [:index] do
+        resources :conversations, only: [:index, :create] do
           collection do
             post :update_last_seen
             post :toggle_typing
             post :transcript
           end
         end
-        resource :contact, only: [:update]
+        resource :contact, only: [:show, :update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
       end
@@ -200,7 +215,6 @@ Rails.application.routes.draw do
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
 
   namespace :twitter do
-    resource :authorization, only: [:create]
     resource :callback, only: [:show]
   end
 
@@ -233,6 +247,7 @@ Rails.application.routes.draw do
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
+      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

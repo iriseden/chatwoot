@@ -3,6 +3,34 @@
     <div class="profile--settings--row row">
       <div class="columns small-3 ">
         <h4 class="block-title">
+          {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE') }}
+        </h4>
+        <p>
+          {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE') }}
+        </p>
+      </div>
+      <div class="columns small-9">
+        <div>
+          <input
+            id="audio_enable_alert"
+            v-model="enableAudioAlerts"
+            class="notification--checkbox"
+            type="checkbox"
+            @input="handleAudioInput"
+          />
+          <label for="audio_enable_alert">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ENABLE_AUDIO'
+              )
+            }}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="profile--settings--row row">
+      <div class="columns small-3 ">
+        <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
         <p>
@@ -79,7 +107,10 @@
         </div>
       </div>
     </div>
-    <div v-if="vapidPublicKey" class="profile--settings--row row push-row">
+    <div
+      v-if="vapidPublicKey && !isBrowserSafari"
+      class="profile--settings--row row push-row"
+    >
       <div class="columns small-3 ">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
@@ -182,6 +213,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import {
   hasPushPermissions,
   requestPushPermissions,
@@ -189,11 +221,12 @@ import {
 } from '../../../../helper/pushHelper';
 
 export default {
-  mixins: [alertMixin, configMixin],
+  mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {
     return {
       selectedEmailFlags: [],
       selectedPushFlags: [],
+      enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
     };
   },
@@ -201,7 +234,14 @@ export default {
     ...mapGetters({
       emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
+      uiSettings: 'getUISettings',
     }),
+    isBrowserSafari() {
+      if (window.browserConfig) {
+        return window.browserConfig.is_safari === 'true';
+      }
+      return false;
+    },
   },
   watch: {
     emailFlags(value) {
@@ -210,6 +250,10 @@ export default {
     pushFlags(value) {
       this.selectedPushFlags = value;
     },
+    uiSettings(value) {
+      const { enable_audio_alerts: enableAudio = false } = value;
+      this.enableAudioAlerts = enableAudio;
+    },
   },
   mounted() {
     if (hasPushPermissions()) {
@@ -217,6 +261,8 @@ export default {
     }
 
     this.$store.dispatch('userNotificationSettings/get');
+    const { enable_audio_alerts: enableAudio = false } = this.uiSettings;
+    this.enableAudioAlerts = enableAudio;
   },
   methods: {
     onRegistrationSuccess() {
@@ -268,6 +314,13 @@ export default {
 
       this.updateNotificationSettings();
     },
+    handleAudioInput(e) {
+      this.enableAudioAlerts = e.target.checked;
+      this.updateUISettings({
+        enable_audio_alerts: this.enableAudioAlerts,
+      });
+      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+    },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
         const newSelectedFlags = selected.filter(flag => flag !== current);
@@ -284,10 +337,5 @@ export default {
 
 .notification--checkbox {
   font-size: $font-size-large;
-}
-
-// Hide on Safari
-.push-row:not(:root:root) {
-  display: none;
 }
 </style>

@@ -29,6 +29,17 @@ ca:
       failed: El registre ha fallat
   reports:
     period: Període d'informes %{since} a %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+  notifications:
+    notification_title:
+      conversation_creation: "[Nova conversació] - #%{display_id} ha estat creada a %{inbox_name}"
+      conversation_assignment: "[Assignada a tu] - #%{display_id} t'ha sigut assignada"
+      assigned_conversation_new_message: "[Nou missatge] - #%{display_id} %{content}"
+      conversation_mention: "Has sigut esmentat a la conversació [ID - %{display_id} per %{name}"
   conversations:
     messages:
       deleted: Aquest missatge a sigut eliminat
@@ -36,11 +47,16 @@ ca:
       status:
         resolved: "La conversa va ser marcada com resolta per %{user_name}"
         open: "La conversa es va reobrir per %{user_name}"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "El sistema ha marcat que la conversa s'ha resolt a causa de %{duration} dies d'inactivitat"
       assignee:
         self_assigned: "%{user_name} s'ha auto assignat aquesta conversa"
         assigned: "Assignada a %{assignee_name} per %{user_name}"
         removed: "%{user_name} ha tret l'assignació de la conversa"
+      team:
+        assigned: "Assignada a %{team_name} per %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} ha afegit %{labels}"
         removed: "%{user_name} ha eliminat %{labels}"
@@ -60,3 +76,6 @@ ca:
     webhooks:
       name: "Webhooks"
       description: "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Podeu utilitzar els webhooks per comunicar els esdeveniments a les vostres aplicacions preferides com Slack o Github. Feu clic a Configura per configurar els enllaços web."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

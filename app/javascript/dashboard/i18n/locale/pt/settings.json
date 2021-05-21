@@ -3,6 +3,8 @@
     "LINK": "Configurações do perfil",
     "TITLE": "Configurações do perfil",
     "BTN_TEXT": "Atualizar o perfil",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Sua senha foi alterada com sucesso",
     "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso, faça o login novamente pois suas credenciais foram alteradas",
     "FORM": {
       "AVATAR": "Imagem do perfil",
@@ -16,17 +18,24 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Palavra-passe",
-        "NOTE": "Atualizar sua senha irá redefinir seus logins em vários dispositivos."
+        "NOTE": "Atualizar sua senha irá redefinir seus logins em vários dispositivos.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
         "NOTE": "Este token pode ser usado se você estiver construindo uma integração baseada em API"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
         "NOTE": "Atualize suas preferências de notificação por e-mail aqui",
         "CONVERSATION_ASSIGNMENT": "Enviar notificações por email quando uma conversa é atribuída a mim",
         "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa é criada",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
@@ -38,6 +47,7 @@
         "NOTE": "Update your push notification preferences here",
         "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
         "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
@@ -118,10 +128,12 @@
     "HOME": "Home",
     "AGENTS": "agentes",
     "INBOXES": "Caixas de Entrada",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Respostas Prontas",
     "INTEGRATIONS": "Integrações",
     "ACCOUNT_SETTINGS": "Account Settings",
-    "LABELS": "Labels"
+    "LABELS": "Etiquetas",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",

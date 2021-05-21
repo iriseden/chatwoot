@@ -29,6 +29,17 @@ da:
       failed: Tilmelding mislykkedes
   reports:
     period: Reporting period %{since} to %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+  notifications:
+    notification_title:
+      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
       deleted: This message was deleted
@@ -36,11 +47,16 @@ da:
       status:
         resolved: "Samtalen blev markeret som løst af %{user_name}"
         open: "Samtalen blev genåbnet af %{user_name}"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Samtalen blev markeret som løst af systemet på grund af %{duration} dages inaktivitet"
       assignee:
         self_assigned: "%{user_name} selv-tildelte denne samtale"
         assigned: "Tildelt %{assignee_name} af %{user_name}"
         removed: "Samtale fjernet tildeling af %{user_name}"
+      team:
+        assigned: "Tildelt %{team_name} af %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} tilføjede %{labels}"
         removed: "%{user_name} fjernede %{labels}"
@@ -60,3 +76,6 @@ da:
     webhooks:
       name: "Webhooks"
       description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

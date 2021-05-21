@@ -1,5 +1,6 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
+import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
@@ -40,6 +41,20 @@ export const state = {
 export const getters = {
   getInboxes($state) {
     return $state.records;
+  },
+  getNewConversationInboxes($state) {
+    return $state.records.filter(inbox => {
+      const {
+        channel_type: channelType,
+        phone_number: phoneNumber = '',
+      } = inbox;
+
+      const isEmailChannel = channelType === INBOX_TYPES.EMAIL;
+      const isSmsChannel =
+        channelType === INBOX_TYPES.TWILIO &&
+        phoneNumber.startsWith('whatsapp');
+      return isEmailChannel || isSmsChannel;
+    });
   },
   getInbox: $state => inboxId => {
     const [inbox] = $state.records.filter(
@@ -111,12 +126,15 @@ export const actions = {
       throw new Error(error);
     }
   },
-  updateInbox: async ({ commit }, { id, ...inboxParams }) => {
+  updateInbox: async ({ commit }, { id, formData = true, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, {
       isUpdatingAutoAssignment: true,
     });
     try {
-      const response = await InboxesAPI.update(id, buildInboxData(inboxParams));
+      const response = await InboxesAPI.update(
+        id,
+        formData ? buildInboxData(inboxParams) : inboxParams
+      );
       commit(types.default.EDIT_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, {
         isUpdatingAutoAssignment: false,

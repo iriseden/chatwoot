@@ -13,9 +13,7 @@ unless Rails.env.production?
   SuperAdmin.create!(email: 'john@acme.inc', password: '123456')
 
   account = Account.create!(
-    name: 'Acme Inc',
-    domain: 'support.chatwoot.com',
-    support_email: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+    name: 'Acme Inc'
   )
 
   user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
@@ -33,7 +31,7 @@ unless Rails.env.production?
   inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
   InboxMember.create!(user: user, inbox: inbox)
 
-  contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '0000', account: account)
+  contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '+2320000', account: account)
   contact_inbox = ContactInbox.create!(inbox: inbox, contact: contact, source_id: user.id, hmac_verified: true)
   conversation = Conversation.create!(
     account: account,

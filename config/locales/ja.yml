@@ -29,6 +29,17 @@ ja:
       failed: サインアップに失敗しました
   reports:
     period: Reporting period %{since} to %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+  notifications:
+    notification_title:
+      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
       deleted: This message was deleted
@@ -36,11 +47,16 @@ ja:
       status:
         resolved: "会話は %{user_name} によって解決済みになりました"
         open: "%{user_name} によって会話が再開されました"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} がこの会話を自身で割り当てました"
         assigned: "%{assignee_name} によって %{user_name} に割り当てられました"
         removed: "%{user_name} によって割り当てられていない会話です"
+      team:
+        assigned: "%{team_name} によって %{user_name} に割り当てられました"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"
@@ -60,3 +76,6 @@ ja:
     webhooks:
       name: "Webhooks"
       description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

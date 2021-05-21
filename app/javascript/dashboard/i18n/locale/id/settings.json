@@ -3,6 +3,8 @@
     "LINK": "Pengaturan Profil",
     "TITLE": "Pengaturan Profil",
     "BTN_TEXT": "Memperbaharui Profil",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Kata sandi Anda berhasil diubah",
     "AFTER_EMAIL_CHANGED": "Profil Anda telah berhasil diperbarui, silakan masuk lagi dengan data akun yang baru diubah",
     "FORM": {
       "AVATAR": "Foto Profil",
@@ -16,17 +18,24 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Kata Sandi",
-        "NOTE": "Memperbarui kata sandi Anda akan mengatur ulang login Anda di beberapa perangkat."
+        "NOTE": "Memperbarui kata sandi Anda akan mengatur ulang login Anda di beberapa perangkat.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "Token ini dapat digunakan jika Anda sedang membangun integrasi berbasis API"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifikasi Email",
         "NOTE": "Perbarui preferensi pemberitahuan email Anda di sini",
         "CONVERSATION_ASSIGNMENT": "Kirim pemberitahuan email saat percakapan ditugaskan kepada saya",
         "CONVERSATION_CREATION": "Kirim pemberitahuan email ketika percakapan baru dibuat",
+        "CONVERSATION_MENTION": "Kirim pemberitahuan email saat Anda disebut dalam percakapan",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim pemberitahuan email ketika pesan baru dibuat dalam percakapan yang telah ditugaskan"
       },
       "API": {
@@ -38,6 +47,7 @@
         "NOTE": "Perbarui preferensi push notification Anda di sini",
         "CONVERSATION_ASSIGNMENT": "Kirim pemberitahuan push ketika percakapan ditugaskan kepada saya",
         "CONVERSATION_CREATION": "Kirim push notification ketika percakapan baru dibuat",
+        "CONVERSATION_MENTION": "Kirim push notification ketika Anda disebut dalam percakapan",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim push notification ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
         "HAS_ENABLED_PUSH": "Anda telah mengaktifkan push notification untuk browser ini.",
         "REQUEST_PUSH": "Aktifkan push notifications"
@@ -118,10 +128,12 @@
     "HOME": "Home",
     "AGENTS": "Agen",
     "INBOXES": "Kotak masuk",
+    "NOTIFICATIONS": "Notifikasi",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrasi",
     "ACCOUNT_SETTINGS": "Pengaturan Akun",
-    "LABELS": "Label"
+    "LABELS": "Label",
+    "TEAMS": "Tim"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Akun Baru",

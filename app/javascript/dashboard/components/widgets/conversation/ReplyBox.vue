@@ -72,6 +72,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
@@ -81,6 +82,9 @@ import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+
 import {
   isEscape,
   isEnter,
@@ -88,6 +92,7 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -99,7 +104,7 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [clickaway, inboxMixin],
+  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
     inReplyTo: {
       type: [String, Number],
@@ -115,7 +120,6 @@ export default {
       attachedFiles: [],
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
-      isFormatMode: false,
       mentionSearchKey: '',
       hasUserMention: false,
       hasSlashCommand: false,
@@ -126,17 +130,22 @@ export default {
       if (this.isOnPrivateNote) {
         return true;
       }
-      return this.isFormatMode;
+
+      if (this.isRichEditorEnabled) {
+        const {
+          display_rich_content_editor: displayRichContentEditor,
+        } = this.uiSettings;
+
+        return displayRichContentEditor;
+      }
+      return false;
     },
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-      uiSettings: 'getUISettings',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
     enterToSendEnabled() {
       return !!this.uiSettings.enter_to_send_enabled;
     },
     isPrivate() {
-      if (this.currentChat.can_reply) {
+      if (this.currentChat.can_reply || this.isATwilioWhatsappChannel) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -177,9 +186,11 @@ export default {
       if (this.isPrivate) {
         return MESSAGE_MAX_LENGTH.GENERAL;
       }
-
       if (this.isAFacebookInbox) {
         return MESSAGE_MAX_LENGTH.FACEBOOK;
+      }
+      if (this.isATwilioWhatsappChannel) {
+        return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
       if (this.isATwilioSMSChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
@@ -218,9 +229,7 @@ export default {
       return this.attachedFiles.length;
     },
     isRichEditorEnabled() {
-      return (
-        this.isAWebWidgetInbox || this.isAnEmailChannel || this.isOnPrivateNote
-      );
+      return this.isAWebWidgetInbox || this.isAnEmailChannel;
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
@@ -233,7 +242,7 @@ export default {
         return;
       }
 
-      if (canReply) {
+      if (canReply || this.isATwilioWhatsappChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -281,12 +290,7 @@ export default {
       }
     },
     toggleEnterToSend(enterToSendEnabled) {
-      this.$store.dispatch('updateUISettings', {
-        uiSettings: {
-          ...this.uiSettings,
-          enter_to_send_enabled: enterToSendEnabled,
-        },
-      });
+      this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
     },
     async sendMessage() {
       if (this.isReplyButtonDisabled) {
@@ -313,8 +317,11 @@ export default {
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
 
-      if (canReply) this.replyType = mode;
-      this.$refs.messageInput.focus();
+      if (canReply || this.isATwilioWhatsappChannel) this.replyType = mode;
+      if (this.showRichContentEditor) {
+        return;
+      }
+      this.$nextTick(() => this.$refs.messageInput.focus());
     },
     emojiOnClick(emoji) {
       this.message = `${this.message}${emoji} `;
@@ -356,21 +363,28 @@ export default {
       }
     },
     onFileUpload(file) {
-      this.attachedFiles = [];
       if (!file) {
         return;
       }
-      const reader = new FileReader();
-      reader.readAsDataURL(file.file);
-
-      reader.onloadend = () => {
-        this.attachedFiles.push({
-          currentChatId: this.currentChat.id,
-          resource: file,
-          isPrivate: this.isPrivate,
-          thumb: reader.result,
-        });
-      };
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        this.attachedFiles = [];
+        const reader = new FileReader();
+        reader.readAsDataURL(file.file);
+        reader.onloadend = () => {
+          this.attachedFiles.push({
+            currentChatId: this.currentChat.id,
+            resource: file,
+            isPrivate: this.isPrivate,
+            thumb: reader.result,
+          });
+        };
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
     },
     removeAttachment(itemIndex) {
       this.attachedFiles = this.attachedFiles.filter(
@@ -396,7 +410,7 @@ export default {
       return messagePayload;
     },
     setFormatMode(value) {
-      this.isFormatMode = value;
+      this.updateUISettings({ display_rich_content_editor: value });
     },
   },
 };

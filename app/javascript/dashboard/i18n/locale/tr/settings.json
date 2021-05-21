@@ -3,6 +3,8 @@
     "LINK": "Profil ayarları",
     "TITLE": "Profil ayarları",
     "BTN_TEXT": "Profili Güncelle",
+    "UPDATE_SUCCESS": "Profiliniz başarıyla güncellendi",
+    "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla değiştirildi",
     "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
     "FORM": {
       "AVATAR": "Profil Resmi",
@@ -16,17 +18,24 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Parola",
-        "NOTE": "Parolanızı güncellemek, giriş bilgilerinizi birden fazla cihazda sıfırlar."
+        "NOTE": "Parolanızı güncellemek, giriş bilgilerinizi birden fazla cihazda sıfırlar.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Erişim Jetonu",
         "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Sesli Bildirimler",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-posta Bildirimleri",
         "NOTE": "E-posta bildirim tercihlerinizi buradan güncelleyin",
         "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında e-posta bildirimleri gönder",
         "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda e-posta bildirimleri gönderin",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir görüşmede yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönderin"
       },
       "API": {
@@ -38,6 +47,7 @@
         "NOTE": "Bildirim tercihlerinizi buradan güncelleyin",
         "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında anında bildirim gönder",
         "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda anlık bildirimler gönderin",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanan bir görüşmede yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
         "REQUEST_PUSH": "Bildirimlerini etkinleştirin"
@@ -118,10 +128,12 @@
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
     "INBOXES": "Gelen kutuları",
+    "NOTIFICATIONS": "Bildirimler",
     "CANNED_RESPONSES": "Hazır Yanıtlar",
     "INTEGRATIONS": "Entegrasyonlar",
     "ACCOUNT_SETTINGS": "Hesap ayarları",
-    "LABELS": "Etiketler"
+    "LABELS": "Etiketler",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Yeni hesap",

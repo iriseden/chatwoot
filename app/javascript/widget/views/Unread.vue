@@ -11,13 +11,16 @@
       </button>
     </div>
     <div class="unread-messages">
-      <agent-bubble
-        v-for="message in unreadMessages"
+      <unread-message
+        v-for="(message, index) in unreadMessages"
         :key="message.id"
         :message-id="message.id"
+        :show-sender="!index"
+        :sender="message.sender"
         :message="getMessageContent(message)"
       />
     </div>
+
     <div>
       <button
         v-if="unreadMessageCount"
@@ -33,35 +36,21 @@
 
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
-import AgentBubble from 'widget/components/AgentMessageBubble.vue';
+import UnreadMessage from 'widget/components/UnreadMessage.vue';
+
 import configMixin from '../mixins/configMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Unread',
   components: {
-    AgentBubble,
+    UnreadMessage,
   },
   mixins: [configMixin],
   props: {
-    unreadMessages: {
-      type: Array,
-      default: () => [],
-    },
-    conversationSize: {
-      type: Number,
-      default: 0,
-    },
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
     hasFetched: {
       type: Boolean,
       default: false,
-    },
-    conversationAttributes: {
-      type: Object,
-      default: () => {},
     },
     unreadMessageCount: {
       type: Number,
@@ -73,8 +62,15 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      unreadMessages: 'conversation/getUnreadTextMessages',
+    }),
     showCloseButton() {
       return this.unreadMessageCount && this.hideMessageBubble;
+    },
+    sender() {
+      const [firstMessage] = this.unreadMessages;
+      return firstMessage.sender || {};
     },
   },
   methods: {

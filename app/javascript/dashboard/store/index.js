@@ -18,11 +18,15 @@ import conversationTypingStatus from './modules/conversationTypingStatus';
 import globalConfig from 'shared/store/globalConfig';
 import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
+import inboxAssignableAgents from './modules/inboxAssignableAgents';
 import integrations from './modules/integrations';
 import labels from './modules/labels';
 import reports from './modules/reports';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
+import teams from './modules/teams';
+import teamMembers from './modules/teamMembers';
+import campaigns from './modules/campaigns';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -44,10 +48,14 @@ export default new Vuex.Store({
     globalConfig,
     inboxes,
     inboxMembers,
+    inboxAssignableAgents,
     integrations,
     labels,
     reports,
     userNotificationSettings,
     webhooks,
+    teams,
+    teamMembers,
+    campaigns,
   },
 });

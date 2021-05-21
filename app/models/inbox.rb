@@ -12,6 +12,7 @@
 #  greeting_message       :string
 #  name                   :string           not null
 #  out_of_office_message  :string
+#  timezone               :string           default("UTC")
 #  working_hours_enabled  :boolean          default(FALSE)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -29,11 +30,13 @@ class Inbox < ApplicationRecord
   include OutOfOffisable
 
   validates :account_id, presence: true
+  validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
 
   belongs_to :account
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
+  has_many :campaigns, dependent: :destroy
   has_many :contact_inboxes, dependent: :destroy
   has_many :contacts, through: :contact_inboxes
 

@@ -3,6 +3,8 @@
     "LINK": "تنظیمات پروفایل",
     "TITLE": "تنظیمات پروفایل",
     "BTN_TEXT": "تغییر دادن پروفایل",
+    "UPDATE_SUCCESS": "پروفایل شما با موفقیت به روز شد",
+    "PASSWORD_UPDATE_SUCCESS": "رمز عبورتان عوض شد",
     "AFTER_EMAIL_CHANGED": "پروفایلتان با موفقیت تغییر یافت، اطلاعات ورود به سیستم تغییر کرده لذا لطفا مجددا به سیستم وارد شوید",
     "FORM": {
       "AVATAR": "عکس پروفایل",
@@ -16,18 +18,25 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "رمز عبور",
-        "NOTE": "تغییر دادن رمز عبور باعث می‌شود مجبور شوید دوباره به سیستم وارد شوید"
+        "NOTE": "تغییر دادن رمز عبور باعث می‌شود مجبور شوید دوباره به سیستم وارد شوید",
+        "BTN_TEXT": "تغییر رمز عبور"
       },
       "ACCESS_TOKEN": {
         "TITLE": "توکن دسترسی",
         "NOTE": "از این توکن برای دسترسی از طریق API استفاده می‌شود"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
         "NOTE": "اینجا می‌توانید تنظیمات اعلامیه‌هایی که به ایمیل ارسال می‌شود تغییر دهید",
         "CONVERSATION_ASSIGNMENT": "هر وقت گفتگویی به من اختصاص داده شد،‌ ایمیل بفرست",
         "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من ایمیل بفرست",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "CONVERSATION_MENTION": "هنگامی که از شما در گفتگو نام برده می‌شود، از طریق ایمیل آگاه‌سازی ارسال کن",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "با ایجاد پیام جدید در مکالمه اختصاصی ، اعلان های ایمیل را ارسال کنید"
       },
       "API": {
         "UPDATE_SUCCESS": "تغییرات تنظیمات اعلامیه‌ها با موفقیت ثبت شد",
@@ -38,7 +47,8 @@
         "NOTE": "اینجا می‌توانید تنظیمات پوش نوتیفیکیشن را تغییر دهید",
         "CONVERSATION_ASSIGNMENT": "هر وقت گفتگویی به من اختصاص داده شد، برای من پوش نوتیفیکیشن بفرست",
         "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من پوش نوتیفیکیشن بفرست",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "CONVERSATION_MENTION": "هنگامی که از شما در مکالمه نام برده می شود پوش نوتیفیکیشن ارسال کنید",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "وقتی پیام جدیدی در مکالمه اختصاص داده شده ایجاد می شود ، پوش نوتیفیکیشن را ارسال کنید",
         "HAS_ENABLED_PUSH": "در این مرورگر پوش نوتیفیکیشن را فعال کرده‌اید",
         "REQUEST_PUSH": "فعال کردن پوش نوتیفیکیشن"
       },
@@ -118,10 +128,12 @@
     "HOME": "صفحه اصلی",
     "AGENTS": "اپراتورها",
     "INBOXES": "صندوق‌های ورودی",
+    "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
-    "LABELS": "برچسب‌ها"
+    "LABELS": "برچسب‌ها",
+    "TEAMS": "تیم‌ها"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "حساب‌کاربری جدید",

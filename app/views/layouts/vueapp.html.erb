@@ -23,9 +23,9 @@
       <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
       <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-      <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+      <link class="favicon" rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+      <link class="favicon" rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+      <link class="favicon" rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
       <link rel="manifest" href="/manifest.json">
     <% end %>
     <link rel="icon" type="image/png" sizes="512x512" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
@@ -42,6 +42,11 @@
         selectedLocale: '<%= I18n.locale %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
+      window.browserConfig = {
+        browser_name: '<%= browser.name %>',
+        is_safari: '<%= browser.safari? %>'
+      }
+      window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_DSN', '')%>'
     </script>
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'application' %>
@@ -50,5 +55,27 @@
     <div id="app"></div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
+    <% @global_config['CHATWOOT_INBOX_TOKEN'] %>
+    <% if @global_config['CHATWOOT_INBOX_TOKEN'] %>
+    <script>
+      window.chatwootSettings = {
+        hideMessageBubble: true,
+        position: 'left',
+      };
+      (function(d,t) {
+        var BASE_URL="";
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=BASE_URL+"/packs/js/sdk.js";
+        s.parentNode.insertBefore(g,s);
+        s.async=!0;
+        g.onload=function(){
+          window.chatwootSDK.run({
+            websiteToken: '<%= @global_config['CHATWOOT_INBOX_TOKEN'] %>',
+            baseUrl: BASE_URL,
+          });
+        }
+      })(document,"script");
+    </script>
+    <% end %>
   </body>
 </html>
